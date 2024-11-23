@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+//datasource db {
+//  provider = "mysql"
+//  url      = env("DATABASE_URL")
+//}
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+model User {
+  id   Int    @id @default(autoincrement())
+  name String
+  role String @default("user")
+}
+
+model Schedule {
+  id          BigInt   @id @default(autoincrement())
+  date        DateTime // Tanggal input
+  departement String // Nama departemen, misalnya 'Finance', 'Market'
+  keterangan  String // Keterangan tambahan, misalnya 'Libur', 'Masuk'
+  weeklyId    Int // ID mingguan
+}
+
+model Pengumuman {
+  id     Int      @id @default(autoincrement())
+  date   DateTime @default(now())
+  judul  String
+  konten String @db.Text
+  createAt String @default("admin")
+}
