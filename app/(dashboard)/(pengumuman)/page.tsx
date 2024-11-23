@@ -46,7 +46,6 @@ export default function PengumumanPage() {
           setInfoId(data.latest.id);
         }
       } catch (error) {
-        console.error('Error fetching info:', error);
         alert('Failed to fetch info. Please try again later.');
       } finally {
         setLoading(false);
@@ -70,7 +69,6 @@ export default function PengumumanPage() {
         const data = await response.json();
         setSelectedInfo(Array.isArray(data) ? data[0] : data);
       } catch (error) {
-        console.error('Error fetching selected info:', error);
         alert('Failed to fetch selected info. Please try again later.');
       } finally {
         setLoading(false);

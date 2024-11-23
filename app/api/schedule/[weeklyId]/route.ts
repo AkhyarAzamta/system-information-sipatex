@@ -58,7 +58,6 @@ export async function GET(req: NextRequest, { params }: { params: { weeklyId: st
       },
       {}
     );
-    console.log(groupedWithResetIds);
     return NextResponse.json(groupedWithResetIds);
   } catch (error) {
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });

@@ -17,7 +17,6 @@ export async function GET(req: NextRequest) {
         day: dayName,
       };
     });
-console.log(schedulesWithDay)
     return NextResponse.json(schedulesWithDay);
   } catch (error) {
     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });

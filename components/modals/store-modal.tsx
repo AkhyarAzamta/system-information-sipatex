@@ -67,7 +67,6 @@ export default function BasicModal() {
       }
 
       const result = await response.json();
-      console.log("API Response:", result);
       // alert(`Data berhasil ${isEdit ? "diperbarui" : "ditambahkan"}!`);
     setSelectedInfo(result);
       onClose();
