@@ -22,6 +22,7 @@ import {
 import { SelectChangeEvent } from "@mui/material/Select";
 import { useStoreModal } from "@/hooks/use-store-modal";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import PengumumanPage from "../(pengumuman)/page";
 
 const initialRows: GridRowsProp = [];
 
@@ -282,6 +283,7 @@ export default function FullFeaturedCrudGrid() {
 
   return (
     <Box sx={{ height: "90vh", width: "100%" }}>
+      <PengumumanPage />
       <EditToolbar setRows={setRows} setRowModesModel={setRowModesModel} />
       <DataGrid
         rows={rows}
