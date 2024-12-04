@@ -23,7 +23,7 @@ const style = {
 };
 
 export default function BasicModal() {
-  const { isOpen, isEdit, onClose, infoId, setInfoId, setSelectedInfo, rowsInfo, setRowsInfo } = useStoreModal();
+  const { isOpen, isEdit, onClose, infoId, setEdit, setSelectedInfo, rowsInfo, setRowsInfo } = useStoreModal();
   const [judul, setJudul] = React.useState<string>("");
   const [konten, setKonten] = React.useState<string>("");
   const [date, setDate] = React.useState<Dayjs | null>(dayjs());

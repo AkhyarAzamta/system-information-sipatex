@@ -23,6 +23,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { useStoreModal } from "@/hooks/use-store-modal";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import PengumumanPage from "../(pengumuman)/page";
+import BasicModal from "@/components/modals/store-modal";
 
 const initialRows: GridRowsProp = [];
 
@@ -48,10 +49,16 @@ const saveRowToAPI = async (row: GridRowModel) => {
   });
 };
 
-const deleteRowFromAPI = async (id: GridRowId) => {
-  await fetch(`/api/admin/${id}`, {
-    method: "DELETE",
-  });
+const deleteRowFromAPI = async (id: GridRowId, name: string) => {
+  if (name === "row") {    
+    await fetch(`/api/admin/${id}`, {
+      method: "DELETE",
+    });
+  } else if (name === "info") {
+    await fetch(`/api/info/${id}`, {
+      method: "DELETE",
+    });
+  }
 };
 
 const addRowToAPI = async (row: GridRowModel) => {
@@ -73,7 +80,7 @@ function EditToolbar({
   setRows: React.Dispatch<React.SetStateAction<GridRowsProp>>;
   setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>;
 }) {
-  const { rowsInfo, setRowsInfo, onOpen, onEdit, setInfoId, infoId } = useStoreModal();
+  const { rowsInfo, onOpen, onEdit, setInfoId, infoId } = useStoreModal();
 
   const handleClick = () => {
     const id = Date.now();
@@ -89,12 +96,22 @@ function EditToolbar({
 
   const handleModal = () => {
     onOpen();
-    setInfoId(0);
   };
 
   const handleUpdate = () => {
     onOpen();
     onEdit();
+  };
+
+  const handleDeleteInfo = (infoId: number) => async () => {
+    if (confirm("Are you sure you want to delete this info?")) {
+      try {
+        await deleteRowFromAPI(infoId, "info");
+        alert("info successfully deleted.");
+      } catch (error) {
+        alert("Failed to delete the info. Please try again.");
+      }
+    }
   };
 
   const handleDropdownChange = async (event: SelectChangeEvent<string>) => {
@@ -103,7 +120,7 @@ function EditToolbar({
   };
 
   return (
-    <Box display="flex" alignItems="center" gap={2} padding={1}>
+    <Box alignItems="center">
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add Schedule
       </Button>
@@ -112,6 +129,9 @@ function EditToolbar({
       </Button>
       <Button color="primary" startIcon={<EditIcon />} onClick={handleUpdate}>
         Edit Info
+      </Button>
+      <Button color="primary" startIcon={<DeleteIcon />} onClick={handleDeleteInfo(infoId)}>
+        Delete Info
       </Button>
       <FormControl sx={{ margin: 1, padding: 0, width: "100%" }}>
         <InputLabel id="select-title-label">Pilih Judul</InputLabel>
@@ -158,7 +178,8 @@ export default function FullFeaturedCrudGrid() {
   const handleDeleteClick = (id: GridRowId) => async () => {
     if (confirm("Are you sure you want to delete this row?")) {
       try {
-        await deleteRowFromAPI(id);
+        console.log(id)
+        await deleteRowFromAPI(id, "row");
         setRows((prevRows) => prevRows.filter((row) => row.id !== id));
         alert("Row successfully deleted.");
       } catch (error) {
@@ -285,6 +306,7 @@ export default function FullFeaturedCrudGrid() {
     <Box sx={{ height: "90vh", width: "100%" }}>
       <PengumumanPage />
       <EditToolbar setRows={setRows} setRowModesModel={setRowModesModel} />
+      <BasicModal />
       <DataGrid
         rows={rows}
         columns={columns}

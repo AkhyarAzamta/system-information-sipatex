@@ -41,3 +41,18 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+  const { id } = params;
+  try {
+    await db.pengumuman.delete({
+      where: {
+        id: Number(id),
+      },
+    }); 
+
+    return NextResponse.json({ message: 'Announcement deleted successfully' });
+  } catch (error) {
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+  }
+}

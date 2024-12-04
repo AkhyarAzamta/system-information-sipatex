@@ -1,18 +1,11 @@
+'use client';
 import Loading from '@/components/ui/loading';
 import { useStoreModal } from '@/hooks/use-store-modal';
-import { Skeleton } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 
-interface InfoData {
-  id: number;
-  judul?: string;
-  konten?: string;
-  date?: string;
-}
-
 export default function PengumumanPage() {
-  const { rowsInfo, selectedInfo, setSelectedInfo, setRowsInfo, onMounted, isMounted, infoId, setInfoId } = useStoreModal();
+  const { selectedInfo, setSelectedInfo, setRowsInfo, onMounted, isMounted, infoId, setInfoId } = useStoreModal();
   const [loading, setLoading] = useState(false);
 
   // Fungsi untuk memformat tanggal
